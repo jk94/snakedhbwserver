@@ -12,8 +12,10 @@ package snake.dhbw_server;
  */
 public class Control {
     
+    private ConnectionManager cmgr;
+    
     public Control(){
-        
+        cmgr = new ConnectionManager(this, 1234);
     }
     
     
