@@ -7,7 +7,7 @@ import java.math.*;
 
 public class ServerThread extends Thread {
 
-    ServerSocket server_s;
+    
     Socket connection;
     BufferedReader read_input;
     PrintWriter write_output;
@@ -17,11 +17,11 @@ public class ServerThread extends Thread {
     SharedValue decryptK;
     int baseSize;
 
-    public ServerThread(ServerSocket server_s, File primes, SharedValue decryptK, int baseSize) {
+    public ServerThread(Socket server_s, File primes, SharedValue decryptK, int baseSize) {
         try {
             this.baseSize = baseSize;
-            this.server_s = server_s;
-            this.connection = server_s.accept();
+            
+            this.connection = server_s;
             System.out.println("Client Connected");
             this.read_input = new BufferedReader(new InputStreamReader(
                     connection.getInputStream()));
@@ -35,13 +35,15 @@ public class ServerThread extends Thread {
             while (this.primeReader.readLine() != null) {
                 length++;
             }
+            this.primeReader.close();
+
             this.primeReader = new BufferedReader(new FileReader(primes));
             primZahlen = new String[length];
 
             for (int i = 0; i < primZahlen.length; i++) {
                 primZahlen[i] = primeReader.readLine();
             }
-
+            this.primeReader.close();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -88,7 +90,6 @@ public class ServerThread extends Thread {
         }
     }
 
-    
     public int getExponent(BigInteger prime) {
         int result = 10000000;
         prime = prime.subtract(new BigInteger("-2"));
@@ -134,8 +135,8 @@ public class ServerThread extends Thread {
 
     public BigInteger getPrime() {
         int number = random.nextInt(primZahlen.length);
-
-        return new BigInteger("15485863");
+//new BigInteger("15485863");
+        return new BigInteger("" + number);
         //return new BigInteger(primZahlen[number]);
     }
 

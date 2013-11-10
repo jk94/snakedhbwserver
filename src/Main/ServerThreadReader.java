@@ -34,6 +34,7 @@ public class ServerThreadReader extends Thread {
             String input = "";
             while(true){
                 input = bfr.readLine();
+                System.out.println(input);
                 break;
             }
             pw.println(AES.encrypt("ok".getBytes(), decKey.toByteArray()));
