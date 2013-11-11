@@ -135,9 +135,8 @@ public class ServerThread extends Thread {
 
     public BigInteger getPrime() {
         int number = random.nextInt(primZahlen.length);
-//new BigInteger("15485863");
-        //return new BigInteger("" + primZahlen[number]);
-        return new BigInteger("15485863");
-    }
 
+        return new BigInteger("" + primZahlen[number]);
+        //return new BigInteger("15485863");
+    }
 }
