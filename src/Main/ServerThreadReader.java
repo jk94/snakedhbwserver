@@ -32,16 +32,28 @@ public class ServerThreadReader extends Thread {
             BufferedReader bfr = new BufferedReader(new InputStreamReader(s.getInputStream()));
             PrintWriter pw = new PrintWriter(s.getOutputStream());
             String input = "";
-            while(true){
+            while (true) {
                 input = bfr.readLine();
                 System.out.println(input);
-                break;
+                if (!input.equals("")) {
+                    // TODO BEFEHL EINLESEN!!
+                    System.out.println(ByteArrayToString(AES.decrypt(input.getBytes(), decKey.toByteArray())));
+                    break;
+                }
             }
-            pw.println(AES.encrypt("ok".getBytes(), decKey.toByteArray()));
+            pw.println(ByteArrayToString(AES.encrypt("ok".getBytes(), decKey.toByteArray())));
             pw.flush();
         } catch (Exception ex) {
 
         }
+    }
+
+    private String ByteArrayToString(byte[] bt) {
+        StringBuilder sb = new StringBuilder();
+        for (byte a : bt) {
+            sb.append(a);
+        }
+        return sb.toString();
     }
 
 }

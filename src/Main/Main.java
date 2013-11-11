@@ -24,15 +24,15 @@ public class Main {
              thread0.start();
              */
             // BigInteger key = null;
-            //kc = new Keychecker(KeyAustauschListe, DatenAustauschliste);
-            //kc.start();
+            kc = new Keychecker(KeyAustauschListe, DatenAustauschliste);
+            kc.start();
             ServerSocket sSocket;
             File pz = new File("Primes.rtf");
             sSocket = new ServerSocket(9876);
             do {
                 Socket socket = sSocket.accept();
 
-                System.out.println(pz.getAbsolutePath());
+               System.out.println(pz.getAbsolutePath());
                 if (pz.exists()) {
                     SharedValue decrypt_key = new SharedValue();
                     ServerThread st = new ServerThread(socket, pz, decrypt_key, 3);

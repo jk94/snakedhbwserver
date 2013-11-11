@@ -7,7 +7,6 @@ import java.math.*;
 
 public class ServerThread extends Thread {
 
-    
     Socket connection;
     BufferedReader read_input;
     PrintWriter write_output;
@@ -20,7 +19,7 @@ public class ServerThread extends Thread {
     public ServerThread(Socket server_s, File primes, SharedValue decryptK, int baseSize) {
         try {
             this.baseSize = baseSize;
-            
+
             this.connection = server_s;
             System.out.println("Client Connected");
             this.read_input = new BufferedReader(new InputStreamReader(
@@ -82,7 +81,8 @@ public class ServerThread extends Thread {
 
                 System.out.println("DecryptionKey:" + decryptKey.toString());
                 decryptK.setDecryptionKey(decryptKey);
-
+                this.read_input.close();
+                this.write_output.close();
             }
 
         } catch (Exception e) {
@@ -136,8 +136,8 @@ public class ServerThread extends Thread {
     public BigInteger getPrime() {
         int number = random.nextInt(primZahlen.length);
 //new BigInteger("15485863");
-        return new BigInteger("" + number);
-        //return new BigInteger(primZahlen[number]);
+        //return new BigInteger("" + primZahlen[number]);
+        return new BigInteger("15485863");
     }
 
 }
