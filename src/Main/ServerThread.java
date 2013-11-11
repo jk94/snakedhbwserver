@@ -91,7 +91,7 @@ public class ServerThread extends Thread {
     }
 
     public int getExponent(BigInteger prime) {
-        int result = 10000000;
+        int result = 10000;
         prime = prime.subtract(new BigInteger("-2"));
         while (result > 255
                 && prime.compareTo(new BigInteger(String.valueOf(result))) == 1) {
