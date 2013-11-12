@@ -6,10 +6,16 @@
 
 package Main;
 
+import java.net.Socket;
+
 /**
  *
  * @author User
  */
 public class ServerReader {
+    
+    public ServerReader(Socket socket){
+        
+    }
     
 }
