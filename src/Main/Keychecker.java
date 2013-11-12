@@ -13,10 +13,10 @@ import java.util.ArrayList;
  */
 public class Keychecker extends Thread {
 
-    private ArrayList<ServerThread> KeyAustauschListe;
+    private ArrayList<ServerThreadclass> KeyAustauschListe;
     private ArrayList<ServerThreadReader> DatenAustauschliste;
 
-    public Keychecker(ArrayList<ServerThread> KeyAustauschListe, ArrayList<ServerThreadReader> DatenAustauschliste) {
+    public Keychecker(ArrayList<ServerThreadclass> KeyAustauschListe, ArrayList<ServerThreadReader> DatenAustauschliste) {
         this.KeyAustauschListe = KeyAustauschListe;
         this.DatenAustauschliste = DatenAustauschliste;
 
@@ -27,9 +27,9 @@ public class Keychecker extends Thread {
         while (true) {
             for (int i = 0; i < KeyAustauschListe.size(); i++) {
                 if (KeyAustauschListe.get(i) != null) {
-                    if (KeyAustauschListe.get(i).decryptK.getDecryptionKey() != null) {
-                        KeyAustauschListe.get(i).interrupt();
-                        DatenAustauschliste.add(new ServerThreadReader(KeyAustauschListe.get(i).connection, KeyAustauschListe.get(i).decryptK.getDecryptionKey()));
+                    if (KeyAustauschListe.get(i).getDecK().getDecryptionKey() != null) {
+                        KeyAustauschListe.get(i).interruptThread();
+                        DatenAustauschliste.add(new ServerThreadReader(KeyAustauschListe.get(i).getS(), KeyAustauschListe.get(i).getDecK().getDecryptionKey()));
                         KeyAustauschListe.remove(i);
                         System.out.println("Verschoben: " + DatenAustauschliste.get(DatenAustauschliste.size() - 1).s.getInetAddress());
                         DatenAustauschliste.get(DatenAustauschliste.size() - 1).start();

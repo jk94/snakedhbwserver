@@ -81,8 +81,9 @@ public class ServerThread extends Thread {
 
                 System.out.println("DecryptionKey:" + decryptKey.toString());
                 decryptK.setDecryptionKey(decryptKey);
-                this.read_input.close();
-                this.write_output.close();
+                //write_output.close();
+                //read_input.close();
+
             }
 
         } catch (Exception e) {

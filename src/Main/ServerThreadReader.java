@@ -6,11 +6,14 @@
 package Main;
 
 import Connection.Krypter.AES;
+import Connection.Krypter.Krypt;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.Socket;
+import java.security.Key;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  *
@@ -29,31 +32,38 @@ public class ServerThreadReader extends Thread {
     @Override
     public void run() {
         try {
-            BufferedReader bfr = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            String thekey = decKey.toString();
+            while(thekey.getBytes().length<32){
+                thekey = thekey + thekey;
+            }
+            
+            Key k = new SecretKeySpec(thekey.getBytes(), "AES");
+            Krypt crypt = new Krypt(k, "AES");
+            
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(crypt.decryptInputStream(s.getInputStream())));
             PrintWriter pw = new PrintWriter(s.getOutputStream());
             String input = "";
             while (true) {
+
                 input = bfr.readLine();
-                System.out.println(input);
-                if (!input.equals("")) {
+                if (input != null) {
+                    System.out.println(input);
+                    byte[] entschluesselt = AES.decrypt(input.getBytes(), decKey.toByteArray());
+                    String ent = new String(entschluesselt);
+                    System.out.println(ent);
                     // TODO BEFEHL EINLESEN!!
-                    System.out.println(ByteArrayToString(AES.decrypt(input.getBytes(), decKey.toByteArray())));
                     break;
                 }
             }
             pw.println(ByteArrayToString(AES.encrypt("ok".getBytes(), decKey.toByteArray())));
             pw.flush();
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
     private String ByteArrayToString(byte[] bt) {
-        StringBuilder sb = new StringBuilder();
-        for (byte a : bt) {
-            sb.append(a);
-        }
-        return sb.toString();
+        return new String(bt);
     }
 
 }
