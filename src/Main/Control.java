@@ -22,8 +22,8 @@ import java.util.ArrayList;
  */
 public class Control {
 
-    private ArrayList<ServerThreadclass> KeyAustauschListe = new ArrayList<>();
-    private ArrayList<ServerThreadReader> DatenAustauschliste = new ArrayList<>();
+    private ArrayList<ServerReader> ServerReaderList = new ArrayList<>();
+    
     private Keychecker kc;
     private BigInteger primezahlen[];
     private DB_Connect dbc;
@@ -49,14 +49,12 @@ public class Control {
                 DB_Setter_Operations.submitHighscore(dbc, userid, msg.getPunkte());
             }
         }*/
-        
 
     }
 
     public void starten() {
         try {
-            kc = new Keychecker(KeyAustauschListe, DatenAustauschliste);
-            kc.start();
+            
             ServerSocket sSocket;
             File pz = new File("Primes.rtf");
             sSocket = new ServerSocket(9876);
@@ -65,9 +63,12 @@ public class Control {
 
                 System.out.println(pz.getAbsolutePath());
                 if (pz.exists()) {
-                    SharedValue decrypt_key = new SharedValue();
+                    /*SharedValue decrypt_key = new SharedValue();
                     ServerThreadclass stc = new ServerThreadclass(socket, pz, decrypt_key, 3);
-                    KeyAustauschListe.add(stc);
+                    KeyAustauschListe.add(stc);*/
+                    ServerReader sr = new ServerReader(socket, ServerReaderList);
+                    ServerReaderList.add(sr);
+                    sr.start();
                 } else {
                     System.err.println("Keine Primes vorhanden.. Bitte nachinstallieren!");
                     System.exit(0);
